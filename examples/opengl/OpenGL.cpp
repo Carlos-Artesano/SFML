@@ -379,7 +379,7 @@ int main()
         int i32Location = glGetUniformLocation(mProgramCube, "myPMVMatrix");
 
         // Then passes the matrix to that variable
-        glUniformMatrix4fv(i32Location, 1, GL_FALSE, afIdentity);
+        glUniformMatrix4fv(i32Location, 1, GL_FALSE, afIdentity);//
 
 
         glBindTexture(GL_TEXTURE_2D, texture);
