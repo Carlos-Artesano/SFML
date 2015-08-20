@@ -53,6 +53,7 @@ namespace
             case sf::BlendMode::DstAlpha:         return GL_DST_ALPHA;
             case sf::BlendMode::OneMinusDstAlpha: return GL_ONE_MINUS_DST_ALPHA;
         }
+        return GL_ZERO;
     }
 
 
@@ -64,6 +65,7 @@ namespace
             case sf::BlendMode::Add:             return GLEXT_GL_FUNC_ADD;
             case sf::BlendMode::Subtract:        return GLEXT_GL_FUNC_SUBTRACT;
         }
+        return GLEXT_GL_FUNC_ADD;
     }
 }
 
@@ -264,9 +266,9 @@ void RenderTarget::draw(const Vertex* vertices, std::size_t vertexCount,
         if (vertices)
         {
             const char* data = reinterpret_cast<const char*>(vertices);
-            glCheck(glVertexPointer(2, GL_FLOAT, sizeof(Vertex), data + 0));
-            glCheck(glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), data + 8));
-            glCheck(glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), data + 12));
+            //glCheck(glVertexPointer(2, GL_FLOAT, sizeof(Vertex), data + 0));
+            //glCheck(glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), data + 8));
+            //glCheck(glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), data + 12));
         }
 
         // Find the OpenGL primitive type
@@ -312,12 +314,12 @@ void RenderTarget::pushGLStates()
             glCheck(glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS));
             glCheck(glPushAttrib(GL_ALL_ATTRIB_BITS));
         #endif
-        glCheck(glMatrixMode(GL_MODELVIEW));
-        glCheck(glPushMatrix());
-        glCheck(glMatrixMode(GL_PROJECTION));
-        glCheck(glPushMatrix());
-        glCheck(glMatrixMode(GL_TEXTURE));
-        glCheck(glPushMatrix());
+        //glCheck(glMatrixMode(GL_MODELVIEW));
+        //glCheck(glPushMatrix());
+        //glCheck(glMatrixMode(GL_PROJECTION));
+        //glCheck(glPushMatrix());
+        //glCheck(glMatrixMode(GL_TEXTURE));
+        //glCheck(glPushMatrix());
     }
 
     resetGLStates();
@@ -329,12 +331,12 @@ void RenderTarget::popGLStates()
 {
     if (activate(true))
     {
-        glCheck(glMatrixMode(GL_PROJECTION));
-        glCheck(glPopMatrix());
-        glCheck(glMatrixMode(GL_MODELVIEW));
-        glCheck(glPopMatrix());
-        glCheck(glMatrixMode(GL_TEXTURE));
-        glCheck(glPopMatrix());
+        //glCheck(glMatrixMode(GL_PROJECTION));
+        //glCheck(glPopMatrix());
+        //glCheck(glMatrixMode(GL_MODELVIEW));
+       // glCheck(glPopMatrix());
+        //glCheck(glMatrixMode(GL_TEXTURE));
+        //glCheck(glPopMatrix());
         #ifndef SFML_OPENGL_ES
             glCheck(glPopClientAttrib());
             glCheck(glPopAttrib());
@@ -357,21 +359,21 @@ void RenderTarget::resetGLStates()
         // Make sure that the texture unit which is active is the number 0
         if (GLEXT_multitexture)
         {
-            glCheck(GLEXT_glClientActiveTexture(GLEXT_GL_TEXTURE0));
+            //glCheck(GLEXT_glClientActiveTexture(GLEXT_GL_TEXTURE0));
             glCheck(GLEXT_glActiveTexture(GLEXT_GL_TEXTURE0));
         }
 
         // Define the default OpenGL states
         glCheck(glDisable(GL_CULL_FACE));
-        glCheck(glDisable(GL_LIGHTING));
+        //glCheck(glDisable(GL_LIGHTING));
         glCheck(glDisable(GL_DEPTH_TEST));
-        glCheck(glDisable(GL_ALPHA_TEST));
+        //glCheck(glDisable(GL_ALPHA_TEST));
         glCheck(glEnable(GL_TEXTURE_2D));
         glCheck(glEnable(GL_BLEND));
-        glCheck(glMatrixMode(GL_MODELVIEW));
-        glCheck(glEnableClientState(GL_VERTEX_ARRAY));
-        glCheck(glEnableClientState(GL_COLOR_ARRAY));
-        glCheck(glEnableClientState(GL_TEXTURE_COORD_ARRAY));
+        //glCheck(glMatrixMode(GL_MODELVIEW));
+        //glCheck(glEnableClientState(GL_VERTEX_ARRAY));
+        //glCheck(glEnableClientState(GL_COLOR_ARRAY));
+        //glCheck(glEnableClientState(GL_TEXTURE_COORD_ARRAY));
         m_cache.glStatesSet = true;
 
         // Apply the default SFML states
@@ -410,11 +412,11 @@ void RenderTarget::applyCurrentView()
     glCheck(glViewport(viewport.left, top, viewport.width, viewport.height));
 
     // Set the projection matrix
-    glCheck(glMatrixMode(GL_PROJECTION));
-    glCheck(glLoadMatrixf(m_view.getTransform().getMatrix()));
+    //glCheck(glMatrixMode(GL_PROJECTION));
+    //glCheck(glLoadMatrixf(m_view.getTransform().getMatrix()));
 
     // Go back to model-view mode
-    glCheck(glMatrixMode(GL_MODELVIEW));
+    //glCheck(glMatrixMode(GL_MODELVIEW));
 
     m_cache.viewChanged = false;
 }
@@ -424,7 +426,8 @@ void RenderTarget::applyCurrentView()
 void RenderTarget::applyBlendMode(const BlendMode& mode)
 {
     // Apply the blend mode, falling back to the non-separate versions if necessary
-    if (GLEXT_blend_func_separate)
+    //if (GLEXT_blend_func_separate)
+    if (1)
     {
         glCheck(GLEXT_glBlendFuncSeparate(
             factorToGlConstant(mode.colorSrcFactor), factorToGlConstant(mode.colorDstFactor),
@@ -437,9 +440,11 @@ void RenderTarget::applyBlendMode(const BlendMode& mode)
             factorToGlConstant(mode.colorDstFactor)));
     }
 
-    if (GLEXT_blend_minmax && GLEXT_blend_subtract)
+    //if (GLEXT_blend_minmax && GLEXT_blend_subtract)
+    if (1)
     {
-        if (GLEXT_blend_equation_separate)
+        //if (GLEXT_blend_equation_separate)
+        if (1)
         {
             glCheck(GLEXT_glBlendEquationSeparate(
                 equationToGlConstant(mode.colorEquation),
@@ -473,7 +478,7 @@ void RenderTarget::applyTransform(const Transform& transform)
 {
     // No need to call glMatrixMode(GL_MODELVIEW), it is always the
     // current mode (for optimization purpose, since it's the most used)
-    glCheck(glLoadMatrixf(transform.getMatrix()));
+    //glCheck(glLoadMatrixf(transform.getMatrix()));
 }
 
 

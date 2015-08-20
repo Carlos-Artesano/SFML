@@ -43,7 +43,13 @@
         #include <windows.h>
     #endif
 
-    #include <GL/gl.h>
+    #if defined(SFML_OPENGL_ES)
+        #include <GLES2/gl2.h>
+        #include <GLES2/gl2ext.h>
+
+    #else
+        #include <GL/gl.h>
+    #endif
 
 #elif defined(SFML_SYSTEM_LINUX) || defined(SFML_SYSTEM_FREEBSD)
 

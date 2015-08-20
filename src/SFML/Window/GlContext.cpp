@@ -392,6 +392,8 @@ void GlContext::initialize()
             // The beginning of the returned string is "major.minor" (this is standard)
             m_settings.majorVersion = version[0] - '0';
             m_settings.minorVersion = version[2] - '0';
+            m_settings.majorVersion = 2;
+            m_settings.minorVersion = 0;
         }
         else
         {

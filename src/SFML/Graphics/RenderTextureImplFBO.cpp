@@ -76,7 +76,8 @@ bool RenderTextureImplFBO::isAvailable()
     // Make sure that extensions are initialized
     priv::ensureExtensionsInit();
 
-    return GLEXT_framebuffer_object != 0;
+    //return GLEXT_framebuffer_object != 0;
+    return true;
 }
 
 

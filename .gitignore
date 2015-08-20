@@ -1,0 +1,12 @@
+build/bin/
+build/CMakeFiles/
+build/CMakeCache.txt
+build/cmake_install.cmake
+*.stamp
+*.depend
+*.cmake
+build/examples/opengl/opengl.dir/
+build/lib/
+*.opensdf
+*.sdf
+*.tlog

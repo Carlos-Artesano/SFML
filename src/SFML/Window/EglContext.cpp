@@ -55,7 +55,17 @@ namespace
         }
 
         return display;
+#elif defined(SFML_SYSTEM_WINDOWS)
 
+        static EGLDisplay display = EGL_NO_DISPLAY;
+
+        if (display == EGL_NO_DISPLAY)
+        {
+            display = eglCheck(eglGetDisplay(EGL_DEFAULT_DISPLAY));
+            eglCheck(eglInitialize(display, NULL, NULL));
+        }
+
+        return display;
 #elif defined(SFML_SYSTEM_ANDROID)
 
     // On Android, its native activity handles this for us
@@ -196,7 +206,7 @@ void EglContext::setVerticalSyncEnabled(bool enabled)
 void EglContext::createContext(EglContext* shared)
 {
     const EGLint contextVersion[] = {
-        EGL_CONTEXT_CLIENT_VERSION, 1,
+        EGL_CONTEXT_CLIENT_VERSION, 2,
         EGL_NONE
     };
 
@@ -239,8 +249,8 @@ EGLConfig EglContext::getBestConfig(EGLDisplay display, unsigned int bitsPerPixe
         EGL_DEPTH_SIZE, settings.depthBits,
         EGL_STENCIL_SIZE, settings.stencilBits,
         EGL_SAMPLE_BUFFERS, settings.antialiasingLevel,
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES_BIT,
+        EGL_SURFACE_TYPE, EGL_WINDOW_BIT , //| EGL_PBUFFER_BIT
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
         EGL_NONE
     };
 

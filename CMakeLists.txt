@@ -12,10 +12,13 @@ endmacro()
 
 # determine whether to create a debug or release build
 sfml_set_option(CMAKE_BUILD_TYPE Release STRING "Choose the type of build (Debug or Release)")
+sfml_set_option(ANDROID_NDK c:/android/ndk/android-ndk-r10d STRING "Android NDK Path")
+
 
 # set Android specific options
 
 # define the minimum API level to be used
+sfml_set_option(ANDROID_API_MIN 9 STRING "Choose the Android API level to be used (minimum 9)")
 sfml_set_option(ANDROID_API_MIN 9 STRING "Choose the Android API level to be used (minimum 9)")
 # mirror the setting for the toolchain file
 set(ANDROID_NATIVE_API_LEVEL ${ANDROID_API_MIN})

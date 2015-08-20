@@ -46,6 +46,8 @@
         #define NOMINMAX
     #endif
 
+    //#define SFML_OPENGL_ES 
+
 #elif defined(__APPLE__) && defined(__MACH__)
 
     // Apple platform, see which one it is

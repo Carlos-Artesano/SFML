@@ -550,11 +550,11 @@ void Texture::bind(const Texture* texture, CoordinateType coordinateType)
             }
 
             // Load the matrix
-            glCheck(glMatrixMode(GL_TEXTURE));
-            glCheck(glLoadMatrixf(matrix));
+            ///glCheck(glMatrixMode(GL_TEXTURE));
+           ///glCheck(glLoadMatrixf(matrix));
 
             // Go back to model-view mode (sf::RenderTarget relies on it)
-            glCheck(glMatrixMode(GL_MODELVIEW));
+            ///glCheck(glMatrixMode(GL_MODELVIEW));
         }
     }
     else
@@ -563,11 +563,11 @@ void Texture::bind(const Texture* texture, CoordinateType coordinateType)
         glCheck(glBindTexture(GL_TEXTURE_2D, 0));
 
         // Reset the texture matrix
-        glCheck(glMatrixMode(GL_TEXTURE));
-        glCheck(glLoadIdentity());
+        //glCheck(glMatrixMode(GL_TEXTURE));
+        ///glCheck(glLoadIdentity());
 
         // Go back to model-view mode (sf::RenderTarget relies on it)
-        glCheck(glMatrixMode(GL_MODELVIEW));
+        ///glCheck(glMatrixMode(GL_MODELVIEW));
     }
 }
 
